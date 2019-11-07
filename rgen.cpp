@@ -10,7 +10,7 @@
 #include<cstdlib>
 #include<vector>
 #include<utility>
-//#include<windows.h>
+#include<time.h>
 
 using namespace std;
 
@@ -29,7 +29,7 @@ int main (int argc, char **argv)
     int n = 5;
     int c = 20;
     int s2 = 20*(-1);
-    int l = 5*(1000);
+    int l = 5;
     int x,y;
     int Arrayx[500];
     int Arrayy[500];
@@ -40,7 +40,7 @@ int main (int argc, char **argv)
     int option;
 
     while(!cin.eof()){
-    while ((option = getopt (argc, argv, "s:n:l:c:")) != -1)
+    while ((option = getopt (argc, argv, "s:n:l:c:?")) != -1)
         switch (option)
         {
         case 's':
@@ -48,6 +48,10 @@ int main (int argc, char **argv)
             //cout<<"found s"<<endl;
             svalue = optarg;
             s = atoi(svalue.c_str());
+            if(s < 2){
+                std::cerr<<"Error: -s must have value greater than or equal to 2"<<std::endl;
+                return 1;
+            }
             //cout<<s<<endl;
             break;
 
@@ -56,6 +60,10 @@ int main (int argc, char **argv)
             //cout<<"found n"<<endl;
             nvalue = optarg;
             n = atoi(nvalue.c_str());
+            if(n < 1){
+                std::cerr<<"Error: -n must have value greater than or equal to 1"<<std::endl;
+                return 1;
+            }
             //cout<<n<<endl;
             //cout<<"here"<<endl;
             break;
@@ -66,7 +74,11 @@ int main (int argc, char **argv)
             lvalue = optarg;
             int l1;
             l1 = atoi(lvalue.c_str());
-            l = l1*1000;
+            l = l1;
+            if(l1 < 5){
+                std::cerr<<"Error: -l must have value greater than or equal to 5"<<std::endl;
+                return 1;
+            }
             //cout<<l<<endl;
             break;
 
@@ -77,8 +89,16 @@ int main (int argc, char **argv)
             c = atoi(cvalue.c_str());
             //cout<<c<<endl;
             s2 = c*(-1);
+            if(c < 1){
+                std::cerr<<"Error: -c must have value greater than or equal to 1"<<std::endl;
+                return 1;
+            }
             break;
 
+        case '?':
+
+                std::cerr<<"Error: unknown option"<<std::endl;
+                return 1;
         default:
             return 0;
 
@@ -90,14 +110,18 @@ int main (int argc, char **argv)
         random_linesegment = (rand()% (n - 1 + 1)) + 1;
         //cout<<"Number of Line segments are:"<<random_linesegment<<endl;
         const unsigned int sizeofArray = 500;
-        string myArray[sizeofArray];
+        char myArray[sizeofArray];
+        char myArray2[sizeofArray];
+        char myArray3[sizeofArray];
         for (int i=0;i<random_street;i++)
         {
 
 
             myArray[i] =  alphanum[rand()%(sizeof(alphanum)-1)]  ;
-            cout<<"a"<<" "<<'"'<<myArray[i]<<'"';
-            outfile<<"a"<<" "<<'"'<<myArray[i]<<'"';
+            myArray2[i] = alphanum[rand()%(sizeof(alphanum)-1)]  ;
+            myArray3[i] = alphanum[rand()%(sizeof(alphanum)-1)]  ;
+            cout<<"a"<<" "<<'"'<<myArray[i]<<myArray2[i]<<myArray3[i]<<'"';
+            outfile<<"a"<<" "<<'"'<<myArray[i]<<myArray2[i]<<myArray3[i]<<'"';
 
 
 
@@ -118,17 +142,16 @@ int main (int argc, char **argv)
             outfile<<endl;
         }
 
-
         //for(int i=0;i<myVector.size();i++){
             //cout<<myVector[i]<<" ";
         //}
         cout<<"g"<<endl;
         outfile<<"g"<<endl;
 
-nanosleep(l);
+sleep(l);
 for(int i=0;i<random_street;i++){
-    cout<<"r"<<" "<<'"'<<myArray[i]<<'"'<<endl;
-    outfile<<"r"<<" "<<'"'<<myArray[i]<<'"'<<endl;
+    cout<<"r"<<" "<<'"'<<myArray[i]<<myArray2[i]<<myArray3[i]<<'"'<<endl;
+    outfile<<"r"<<" "<<'"'<<myArray[i]<<myArray2[i]<<myArray3[i]<<'"'<<endl;
 }
 
 
