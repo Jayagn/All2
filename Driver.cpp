@@ -60,8 +60,12 @@ int main(int argc, char **argv)
 
     child_pid = fork();
     if(child_pid == 0){
+        
 
-
+        char *arg1[3];
+        arg1[0]= (char*)"python";
+        arg1[1]=(char*)"a1-ece650.py";
+        arg1[2]=nullptr;
         dup2(pipe_rgen_to_a1[0],STDIN_FILENO);
         close(pipe_rgen_to_a1[1]);
         close(pipe_rgen_to_a1[0]);
@@ -70,7 +74,7 @@ int main(int argc, char **argv)
         dup2(pipe_a1_to_a2[1],STDOUT_FILENO);
         close(pipe_a1_to_a2[0]);
         close(pipe_a1_to_a2[1]);
-        execv("a1-ece650.py",argv);
+        execvp("python",arg1);
         perror("Error: could not execute a1-ece650.py");
         return 1;
     }
