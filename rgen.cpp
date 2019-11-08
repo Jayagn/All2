@@ -107,7 +107,7 @@ int main (int argc, char **argv)
 
         random_street = (rand()% (s - 2 + 1)) + 2;
         //cout<<"Number of Streets are:"<<random_street<<endl;
-        random_linesegment = (rand()% (n - 1 + 1)) + 1;
+    
         //cout<<"Number of Line segments are:"<<random_linesegment<<endl;
         const unsigned int sizeofArray = 500;
         char myArray[sizeofArray];
@@ -123,7 +123,7 @@ int main (int argc, char **argv)
             cout<<"a"<<" "<<'"'<<myArray[i]<<myArray2[i]<<myArray3[i]<<'"';
             outfile<<"a"<<" "<<'"'<<myArray[i]<<myArray2[i]<<myArray3[i]<<'"';
 
-
+             random_linesegment = (rand()% (n - 1 + 1)) + 1;
 
             for(int j=0;j<random_linesegment + 1;j++)
             {

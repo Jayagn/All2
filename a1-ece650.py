@@ -91,6 +91,8 @@ def Graph(vertice_dict, edge_list):
         else:
             sys.stdout.write("<" + str(edge_list[e][0]) + "," + str(edge_list[e][1]) + ">,")
     print("}")
+    sys.stdout.flush()
+
 
 
 Dictionary = {}

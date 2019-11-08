@@ -20,6 +20,7 @@ int a3input(void){
 
 int main(int argc, char **argv)
 {
+		
     std::vector<pid_t> kids;
     pid_t child_pid;
     // create a pipe
@@ -143,6 +144,6 @@ int main(int argc, char **argv)
         kill(k,SIGTERM);
         waitpid(k,&status,0);
     }
-
+	
     return 0;
 }

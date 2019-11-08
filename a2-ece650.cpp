@@ -6,7 +6,8 @@
 #include<iomanip>
 #include<vector>
 #include<bits/stdc++.h>
-
+#include<cstdlib>
+#define MAX 1300
 using namespace std;
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -25,11 +26,11 @@ bool Breath_First_Search(vector<int> adj[], int src, int dest,int v,
     list<int> queue;
 
     // boolean array visited[] which stores the information whether vertex is reached at least once in the Breadth first search
-    bool visited[512];
+    bool *visited = (bool*)malloc(sizeof(bool)*MAX);
 
     // Initially all vertices are unvisited
 
-    for (int i = 0; i < v; i++) {
+    for (int i = 0; i < MAX; i++) {
         visited[i] = false;
         dist[i] = INT8_MAX;
         pre[i] = -1;
@@ -65,14 +66,14 @@ void Shortest_Distance(vector<int> adj[], int s,
                        int dest, int v)
 {
     // predecessor[i] array stores predecessor of i and distance array stores distance of i from s
-    int pre[512];
-    int dist[512];
+    int *pre = (int*)malloc(sizeof(int)*MAX);
+    int *dist = (int*)malloc(sizeof(int)*MAX);
 
 
     if (!Breath_First_Search(adj, s, dest, v, pre, dist))
     {
         cout << "Error: Path does not exist between given vertexes"<<endl;
-        for(int i=0;i<256;i++){
+        for(int i=0;i<MAX;i++){
             adj[i].clear();
         }
         return;
@@ -89,14 +90,15 @@ void Shortest_Distance(vector<int> adj[], int s,
     }
 
     // printing path from source to destination
-    for (int i = path.size() - 1; i >= 0; i--)
-
-        cout <<path[i]<<"-";
-        cout<<'\b';
-        cout<<" ";
-        cout<<"\n";
-
-
+    for (int i = path.size() - 1; i >= 0; i--){
+         if(i!=0){
+             cout <<path[i];
+             cout<<"-";
+       }else{
+			 cout<<path[i];
+	   }
+	}
+	cout<<endl;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -105,11 +107,17 @@ int main(){
 // Variables to store user input vertices , source and destination.
     int vertices;
     int source,dest;
-    int nedges = 0;
+    int nedges = 0, newedges;
     int num_of_edges = 0;
-    int edge[100][100] = {};
+	vector<vector<int>> edge;
+	//int **edge;
+	//int *edge[MAX];
+	//for(int i=0; i<MAX; i++){
+	//		edge[i] = (int*)malloc(sizeof(int)*2);
+	//}
+	// int edge[MAX][MAX] = {};
 
-    vector<int>adj[512];
+    vector<int>adj[MAX];
     while (!cin.eof()){
         string input;
         getline(cin,input);
@@ -119,6 +127,7 @@ int main(){
         string word = "";
         if(cmd == 'V' || cmd == 'E')
         {
+			cout<<input<<endl;
             for(auto x : input)
             {
                 if(x == ' '){
@@ -137,7 +146,7 @@ int main(){
         // Function to parse integers from given set of edges
         if(cmd == 'E')
         {
-            for(int i=0;i<256;i++){
+            for(int i=0;i<MAX;i++){
                 adj[i].clear();
             }
             string edges = word.substr(0);
@@ -151,7 +160,7 @@ int main(){
             {
                 if (stoi(s) >= vertices)
                 { cout<<"Error: Vertex mentioned in edge is greater than number of vertices."<<endl;
-                    for(int i=0;i<256;i++){
+                    for(int i=0;i<MAX;i++){
                         adj[i].clear();
                     }
                     break;
@@ -159,10 +168,15 @@ int main(){
             }
             replace(edges.begin(),edges.end(),',',' ');
             edges += ' ';
-            int newedges = (edges.length()/4);
-            int arr[512];
-            edge [newedges][2];
-            int index = 0;
+            newedges = (edges.length()/4);
+            int *arr = (int*)malloc(sizeof(int)*MAX);
+            //edge [newedges][2];
+			/*edge = (int**)malloc(newedges*sizeof(int*));
+			for(int i=0; i<2; i++)
+			{
+					edge[i] = (int*)malloc(2*sizeof(int));
+			}*/
+		   	int index = 0;
             string number;
 
             for(auto x : edges)
@@ -185,10 +199,13 @@ int main(){
             index = 0;
             for(int i = 0;i<newedges;i++)
             {
+				vector<int> vt;
                 for (int j=0;j<2;j++){
-                    edge[i][j] = arr[index];
-                    index++;
+                    //edge[i][j] = arr[index];
+                    vt.push_back(arr[index]);
+					index++;
                 }
+				edge.push_back(vt);
             }
 
 
@@ -205,7 +222,14 @@ int main(){
 
         if(cmd == 's')
         {
-
+			//int *arr = (int*)malloc(sizeof(int)*MAX);
+			//edge [newedges][2];
+			/*int **edge = (int**)malloc(newedges*sizeof(int*));
+			for(int i=0; i<2; i++)
+			{
+				edge[i] = (int*)malloc(2*sizeof(int));
+			}*/
+						   //
             istringstream stream(input);
             string token1;
             string token2;
@@ -213,7 +237,22 @@ int main(){
             stream >> token1 >> token2 >> token3;
             source = stoi(token2);
             dest = stoi(token3);
+			if(source>=vertices){
+					std::cerr<<"Error: Invalid Vertices"<<std::endl;
+					continue;
+			}
+			if(dest>=vertices){
+					std::cerr<<"Error: Invalid Vertices"<<std::endl;
+                     continue;
 
+			}
+			if(source == dest){
+					cout<<source;
+					cout<<"-";
+					cout<<dest;
+					cout<<endl;
+					continue;
+			}
 
             for(int i = 0; i < num_of_edges; i++)
                 add_edges(adj, edge[i][0], edge[i][1]);
